@@ -1,0 +1,18 @@
+[Unit]
+Description=Minecraft container
+After=network.target
+
+[Container]
+Image=docker.io/itzg/minecraft-server:stable
+ContainerName=minecraft
+Environment=EULA=TRUE
+Environment=TZ=America/Los_Angeles
+Volume=minecraft.volume:/data:z
+PublishPort=25565:25565
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=multi-user.target

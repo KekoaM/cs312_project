@@ -1,0 +1,65 @@
+- name: Deploy Minecraft container
+  hosts: all
+  vars:
+    container_user: ec2-user
+  remote_user: "{{ container_user }}"
+  become: true
+
+  tasks:
+  - name: Find uid
+    command: "id -u {{ container_user }}"
+    register: container_user_uid
+    check_mode: false
+    changed_when: false
+
+  - name: Ensure podman is at the latest version
+    ansible.builtin.package:
+      name: podman
+      state: present
+
+  - name: Create Quadlet dir 
+    ansible.builtin.file:
+      path: /home/{{container_user}}/.config/containers/systemd
+      recurse: true
+      state: directory
+      owner: ec2-user 
+      group: ec2-user
+      mode: '0755'
+
+  - name: Copy the Quadlet files
+    ansible.builtin.copy:
+      src: quadlets/
+      dest: /home/{{container_user}}/.config/containers/systemd
+      owner: ec2-user
+      group: ec2-user
+      mode: '0644'
+
+  - name: Check if user is lingering
+    stat:
+      path: "/var/lib/systemd/linger/{{ container_user }}"
+    register: user_lingering
+
+  - name: Enable lingering is needed
+    command: "loginctl enable-linger {{ container_user }}"
+    when:
+      - not user_lingering.stat.exists
+
+  - name: Reload daemon to generate unit files
+    become_user: "{{container_user}}"
+    ansible.builtin.systemd:
+      scope: user
+      daemon_reload: true
+    environment:
+      XDG_RUNTIME_DIR: "/run/user/{{ container_user_uid.stdout }}"
+
+
+  - name: Start Minecraft service
+    become_user: "{{container_user}}"
+    ansible.builtin.systemd:
+      name: minecraft.service 
+      scope: user
+      enabled: true
+      state: started
+    environment:
+      XDG_RUNTIME_DIR: "/run/user/{{ container_user_uid.stdout }}"
+
