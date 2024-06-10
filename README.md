@@ -44,7 +44,7 @@ flowchart LR
             APC(Enable linger for user)
             APD(Generate, enable, and start unit files)
         end
-    endj
+    end
     
     End{{End}}
     
@@ -62,6 +62,7 @@ flowchart LR
     APC-->APD
 
     Ansible-->End
+
 ```
 
 ## Usage
