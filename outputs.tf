@@ -12,3 +12,8 @@ output "instance_public_ipv6" {
   description = "Public IPv6 addresses of the EC2 instance"
   value       = aws_instance.minecraft_server.ipv6_addresses
 }
+
+output "instance_public_dns" {
+  description = "Public DNS record of EC2 instance"
+  value = aws_instance.minecraft_server.public_dns
+}
