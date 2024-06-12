@@ -44,7 +44,7 @@ flowchart LR
             APC(Enable linger for user)
             APD(Generate, enable, and start unit files)
         end
-    endj
+    end
     
     End{{End}}
     
@@ -62,19 +62,32 @@ flowchart LR
     APC-->APD
 
     Ansible-->End
+
 ```
 
 ## Usage
 
 1. Clone the repo and navigate to it
-```git clone https://github.com/KekoaM/cs312_project && cd cs312_project```
-2. Set environment variables as described in [#Requirements]
-3. Create the EC2 instance with:
-```tofu apply```or```terraform apply```
-4. Install Minecraft with:
-```ansible-playbook -i inventory.aws_ec2.yaml playbook.yaml```
-5. Get the public DNS record of the instance:
-```tofu output -raw instance_public_dns```
-6. Connect to the DNS record at the defualt port (25565) and enjoy the game!
+```
+git clone https://github.com/KekoaM/cs312_project && cd cs312_project
+```
+3. Set environment variables as described in [Requirements](#requirements)
+4. Create the EC2 instance with:
+```
+tofu apply
+```
+or
+```
+terraform apply
+```
+6. Install Minecraft with:
+```
+ansible-playbook -i inventory.aws_ec2.yaml playbook.yaml
+```
+8. Get the public DNS record of the instance:
+```
+tofu output -raw instance_public_dns
+```
+10. Connect to the DNS record at the defualt port (25565) and enjoy the game!
 
 
