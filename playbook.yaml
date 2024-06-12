@@ -12,10 +12,16 @@
     check_mode: false
     changed_when: false
 
-  - name: Ensure podman is at the latest version
-    ansible.builtin.package:
-      name: podman
-      state: present
+  # This hangs indefinitely for some reason
+  # - name: Ensure podman is installed
+  #   ansible.builtin.package:
+  #     name: podman
+  - name: Ensure podman is installed
+    become: true
+    ansible.builtin.command:
+      cmd: dnf install podman -y
+    timeout: 90
+    ignore_errors: true
 
   - name: Create Quadlet dir 
     ansible.builtin.file:

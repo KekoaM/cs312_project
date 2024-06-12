@@ -123,8 +123,8 @@ resource "aws_security_group" "minecraft" {
 
 
 resource "aws_instance" "minecraft_server" {
-  ami           = "ami-01619138e5975be33"
-  instance_type = "t4g.medium"
+  ami = "ami-0423fca164888b941"
+  instance_type = "t2.medium"
   key_name = aws_key_pair.minecraft.key_name
   associate_public_ip_address = true
   subnet_id = "${aws_subnet.minecraft.id}"
