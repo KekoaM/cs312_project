@@ -71,8 +71,8 @@ flowchart LR
 ```
 git clone https://github.com/KekoaM/cs312_project && cd cs312_project
 ```
-3. Set environment variables as described in [Requirements](#requirements)
-4. Create the EC2 instance with:
+2. Set environment variables as described in [Requirements](#requirements)
+3. Create the EC2 instance with:
 ```
 tofu apply
 ```
@@ -80,14 +80,14 @@ or
 ```
 terraform apply
 ```
-6. Install Minecraft with:
+4. Install Minecraft with:
 ```
 ansible-playbook -i inventory.aws_ec2.yaml playbook.yaml
 ```
-8. Get the public DNS record of the instance:
+5. Get the public DNS record of the instance:
 ```
 tofu output -raw instance_public_dns
 ```
-10. Connect to the DNS record at the defualt port (25565) and enjoy the game!
+6. Connect to the DNS record at the defualt port (25565) and enjoy the game!
 
 
